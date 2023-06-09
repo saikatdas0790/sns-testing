@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 # put your dfx identity here
-export DFX_IDENTITY="default"
+export DFX_IDENTITY="default_sns"
 
 # if you don't export CANISTER_TEST or set its value to "_test",
 # then the test flag is set for NNS and SNS governance canisters;
@@ -24,7 +24,7 @@ export NNS_DAPP_RELEASE="proposal-122282"
 # $ ./gitlab-ci/src/artifacts/newest_sha_with_disk_image.sh origin/master
 # from the IC monorepo: https://github.com/dfinity/ic
 # if you change IC_COMMIT, then you need to rerun `source install.sh`
-export IC_COMMIT="f0256969bfea4d721060776790ebc87337a82d29"
+export IC_COMMIT="3699aacfc0774e7a45d59263fdba673aa16c07ad"
 
 # the asset canister version is specified by a DFX commit
 # you can take an arbitrary DFX commit to master:

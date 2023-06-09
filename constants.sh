@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 # Works even when scripts invoked from outside of repository
@@ -11,7 +11,7 @@ repo_root() {
 REPO_ROOT=$(repo_root)
 
 # We always want to use our downloaded versions when available
-export PATH="$REPO_ROOT/bin:${PATH}"
+# export PATH="$REPO_ROOT/bin:${PATH}"
 export REPO_ROOT
 
 export MODE="${1}"
@@ -90,10 +90,11 @@ if [[ "${MODE}" == "install" ]]; then
     return 0
 fi
 
-DFX="${REPO_ROOT}/bin/dfx"
+DFX="$(which dfx)"
 export DFX
-IC_ADMIN="${REPO_ROOT}/bin/ic-admin"
+IC_ADMIN="$(which ic-admin)"
 export IC_ADMIN
+export PATH="${REPO_ROOT}/bin:${PATH}"
 
 if [[ ! -f "${DFX}" ]]; then
     echo "Couldn't find dfx at ${DFX}. You may need to run install.sh"
@@ -130,7 +131,7 @@ if [[ "${TESTNET}" == "local" ]]; then
     echo "Local registry not found!"
     exit 1
   fi
-  export NNS_SUB="$(ic-regedit snapshot "${REGISTRY_PATH}" | jq -r .nns_subnet_id.principal_id.raw | sed "s/(principal-id)//")"
+  export NNS_SUB="$(./bin/subnet-id "http://localhost:$(dfx info replica-port)")"
   export SNS_SUB="${NNS_SUB}"
   export APP_SUB="${NNS_SUB}"
 else

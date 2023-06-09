@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
@@ -48,7 +48,7 @@ cd internet-identity || exit
 
 if [ "${TESTNET}" == "local" ]
 then
-  ${DFX} canister create internet_identity --no-wallet
+  ${DFX} canister create internet_identity --no-wallet --specified-id "qhbym-qaaaa-aaaaa-aaafq-cai"
 fi
 if [ ! -z "${II_RELEASE:-}" ]
 then
@@ -62,7 +62,7 @@ then
   ${DFX} canister create internet_identity --network "${NETWORK}" --no-wallet
 fi
 
-${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet
+${DFX} canister create nns-dapp --network "${NETWORK}" --no-wallet --specified-id "qsgjb-riaaa-aaaaa-aaaga-cai"
 
 ${DFX} --provisional-create-canister-effective-canister-id 5v3p4-iyaaa-aaaaa-qaaaa-cai canister create sns_aggregator --network "${NETWORK}" --no-wallet
 

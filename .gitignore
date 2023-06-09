@@ -7,3 +7,4 @@ candid/*.did
 !candid/test.did
 ic/
 *.log.txt
+.dfx

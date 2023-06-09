@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 # for the sake of redeployment (e.g., within the same Docker instance)

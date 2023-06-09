@@ -2,13 +2,12 @@
 
 > This repository currently does not accept external contributions in the form of pull requests. Please submit your suggestions and bug reports by [opening a ticket](https://github.com/dfinity/sns-testing/issues).
 
-
 ## Purpose
 
 The main purpose of `sns-testing` is to enable developers of Internet Computer (IC) dapps to test Service Nervous System (SNS) decentralization. However, this solution may also be applicable in other scenarios, e.g.:
 
-* Testing tools such as `dfx`, `sns-quill`.
-* Testing UX-related aspects before releasing the [NNS frontend dapp](https://nns.ic0.app/).
+- Testing tools such as `dfx`, `sns-quill`.
+- Testing UX-related aspects before releasing the [NNS frontend dapp](https://nns.ic0.app/).
 
 ## How to use these instructions
 
@@ -27,8 +26,8 @@ _[Skip to the next section](#docker) if you are using an x86-compatible system, 
 The `sns-testing` solution is based on Docker; however, there are subtle issues while running Docker on new [Apple silicon](https://support.apple.com/en-us/HT211814) systems (e.g., Apple M1, Apple M2). Therefore, Apple silicon users are advised to run the commands provided by this repository _directly_. This requires additional preparation:
 
 0. Make sure you have Homebrew installed.
-   * Instructions: https://brew.sh/
-   * Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
+   - Instructions: https://brew.sh/
+   - Use Homebrew to install `coreutils` (needed for tools e.g., `sha256sum`) and `jq`:
      ```bash
      brew install coreutils jq
      ```
@@ -37,7 +36,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    echo 'export PATH="$PATH:/opt/homebrew/bin/:/usr/local/opt/coreutils/libexec/gnubin"' >> "${HOME}/.bashrc"
    ```
    Above, we rely on `.bashrc`, as the main commands from this repository are to be executed via Bash.
-2. Clone this repository: 
+2. Clone this repository:
    ```
    git clone git@github.com:dfinity/sns-testing.git
    cd sns-testing
@@ -49,6 +48,7 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
    bash install.sh
    ```
 4. Start a local replica (this will keep running in the current console; press ⌘+C to stop):
+
    ```bash
    DFX_NET_JSON="${HOME}/.config/dfx/networks.json"
    mkdir -p "$(dirname "${DFX_NET_JSON}")"
@@ -62,44 +62,49 @@ The `sns-testing` solution is based on Docker; however, there are subtle issues 
          }
       }
    }' > "${DFX_NET_JSON}"
-   ./bin/dfx start --clean; \
+   dfx start --clean; \
    mv "${DFX_NET_JSON}.tmp" "$DFX_NET_JSON" 2>/dev/null  # restore original config if it was present
    ```
 
    This should print the dashboard URL, e.g.:
 
-    ```
-    Awaiting local replica ...
-    Dashboard: http://localhost:35727/_/dashboard
-    ```
+   ```
+   Awaiting local replica ...
+   Dashboard: http://localhost:35727/_/dashboard
+   ```
 
 5. Open another Bash console:
+
    ```bash
    bash
    ```
+
    and run the setup script:
+
    ```bash
    bash-3.2$ ./setup_locally.sh
    ```
+
    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/) from the browser.
 
-
 6. To validate the testing environment, run the example dapp shipped with this repository through the entire SNS lifecycle:
+
    ```bash
    bash-3.2$ ./run_basic_scenario.sh
    ```
+
    If the basic scenario finished successfully, you should see the message
-    `Basic scenario has successfully finished.` on the last line of the output.
+   `Basic scenario has successfully finished.` on the last line of the output.
 
    Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
 
    > If you have successfully executed the above commands, you are now ready to [test your own dapp's SNS decentralization](#lifecycle).
 
 7. Clean-up (after you are done testing):
-    ```bash
-    bash-3.2$ ./cleanup.sh
-    ```
-    It should now be possible to repeat the scenario starting from step 1.
+   ```bash
+   bash-3.2$ ./cleanup.sh
+   ```
+   It should now be possible to repeat the scenario starting from step 1.
 
 ## Bootstrapping a testing environment via Docker
 
@@ -112,56 +117,62 @@ After getting familiar with the basic scenario, you may replace the test caniste
 1. If your dapp is ready for testing, clone it into the current directory and cd into it.
 
 2. Start a local replica instance:
-    ```bash
+
+   ```bash
    SNS_TESTING_INSTANCE=$(
-       docker run -p 8080:8080 -v "`pwd`":/dapp -d martin2718/sns-testing:latest dfx start --clean
+      docker run -p 8080:8080 -v "`pwd`":/dapp -d martin2718/sns-testing:latest dfx start --clean
    )
    while ! docker logs $SNS_TESTING_INSTANCE 2>&1 | grep -m 1 'Dashboard:'
    do
-       echo "Awaiting local replica ..."
-       sleep 3
+      echo "Awaiting local replica ..."
+      sleep 3
    done
-    ```
-    This should print the dashboard URL, e.g.:
+   ```
 
-    ```
-    Awaiting local replica ...
-    Dashboard: http://localhost:35727/_/dashboard
-    ```
+   This should print the dashboard URL, e.g.:
 
-    Note that the dashboard is currently not accessible from the browser on your host system.
+   ```
+   Awaiting local replica ...
+   Dashboard: http://localhost:35727/_/dashboard
+   ```
+
+   Note that the dashboard is currently not accessible from the browser on your host system.
 
 3. Run setup:
-    ```bash
-    docker exec -it $SNS_TESTING_INSTANCE bash setup_locally.sh
-    ```
-    After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
-    from the browser on your host machine.
+
+   ```bash
+   docker exec -it $SNS_TESTING_INSTANCE bash setup_locally.sh
+   ```
+
+   After this step, you can also access the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
+   from the browser on your host machine.
 
 4. Run the basic scenario:
-    ```bash
-    docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
-    ```
-    If the basic scenario finished successfully, you should see the message
-    `Basic scenario has successfully finished.` on the last line of the output.
 
-    Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
+   ```bash
+   docker exec $SNS_TESTING_INSTANCE bash run_basic_scenario.sh
+   ```
+
+   If the basic scenario finished successfully, you should see the message
+   `Basic scenario has successfully finished.` on the last line of the output.
+
+   Observe the newly created SNS instance via the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/). When you try to login for the first time, you will need to register a new Internet Identity for testing.
 
 5. If you have successfully executed the above commands, enter a Bash shell inside your `sns-testing` Docker instance by running
+
    ```bash
    docker exec -it $SNS_TESTING_INSTANCE bash
    ```
-   Note: The instruction for testing your own dapp's SNS decentralization assume that all commands are executed from _this_ bash session (inside Docker). You should still have access to your dapp's files, as the repo was mounted at `/dapp` inside the container.
 
-   
+   Note: The instruction for testing your own dapp's SNS decentralization assume that all commands are executed from _this_ bash session (inside Docker). You should still have access to your dapp's files, as the repo was mounted at `/dapp` inside the container.
 
    > You are now ready to [test your own dapp's SNS decentralization](#lifecycle).
 
 6. Clean-up (after you are done testing):
-    ```bash
-    docker kill $SNS_TESTING_INSTANCE
-    ```
-    It should now be possible to repeat the scenario starting from step 1.
+   ```bash
+   docker kill $SNS_TESTING_INSTANCE
+   ```
+   It should now be possible to repeat the scenario starting from step 1.
 
 The above run-book could be easily automated and integrated into your CI/CD pipeline.
 
@@ -190,6 +201,7 @@ created during these steps with your initial SNS developer neurons).
    [Test canister](https://github.com/dfinity/sns-testing#test-canister)
    for further details) which can be thought of as a placeholder
    for your dapp.
+
 1. Run the script `deploy_sns.sh <config-path>` to deploy an SNS passing
    the path to the SNS configuration file as an argument.
    A sample configuration is available in the file `sns-test.yml`.
@@ -215,7 +227,7 @@ created during these steps with your initial SNS developer neurons).
 4. Run the script `open_sns_sale.sh` to open the initial decentralization sale.
    You can adjust the sale parameters directly in the script.
 5. Run the script `participate_sns_sale.sh <num-participants>
-   <icp-per-participant>` to participate in the sale providing the number of
+<icp-per-participant>` to participate in the sale providing the number of
    participants and the number of ICP that each participant contributes as arguments.
    You can also participate in the sale using the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/).
    You can use the "Get ICP" button in the [NNS frontend dapp](http://qsgjb-riaaa-aaaaa-aaaga-cai.localhost:8080/)
@@ -229,13 +241,13 @@ created during these steps with your initial SNS developer neurons).
 
 7. Upgrade your dapp again by submitting an SNS proposal that can be voted on using the SNS developer neuron. This however might not be enough to execute the upgrade, so you also need to vote on this proposal using your participants' neurons (this will be covered in the next step).
 
-    This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
+   This step requires your dapp repo to have an upgrade script that interacts with the replica via the 8080 port.
 
-    If you don't yet have a solution to upgrade your custom dapp, you can still proceed with these instructions by upgrading the example dapp using the scripts provided with this repo:
+   If you don't yet have a solution to upgrade your custom dapp, you can still proceed with these instructions by upgrading the example dapp using the scripts provided with this repo:
 
-    ```bash
-    ./upgrade_test_canister.sh
-    ```
+   ```bash
+   ./upgrade_test_canister.sh
+   ```
 
    This will upgrade the test canister (see Section
    [Test canister](https://github.com/dfinity/sns-testing#test-canister)
@@ -251,7 +263,7 @@ created during these steps with your initial SNS developer neurons).
    ```
 
    to vote on
-   SNS proposal with ID `<id>` with the SNS neurons of *all* the participants
+   SNS proposal with ID `<id>` with the SNS neurons of _all_ the participants
    created by the script `participate_sns_sale.sh` above.
    Make sure to pass the same number of participants `<num-participants>` as in
    `participate_sns_sale.sh <num-participants> <icp-per-participant>` above,
@@ -278,9 +290,10 @@ You can inspect the SNS state by running the following scripts:
 ## Test canister
 
 The test canister is available in the directory `test`. Its purpose is
-* to provide a simple dapp that can be deployed
+
+- to provide a simple dapp that can be deployed
   and handed over control of to an SNS in the basic scenario and
-* to show how generic SNS functions can be implemented and secured to be
+- to show how generic SNS functions can be implemented and secured to be
   only called by the SNS governance canister.
 
 Internally, the test canister keeps an integer counter and a greeting message.
@@ -289,7 +302,7 @@ a greeting text starting with the greeting message, and a pair of functions (cal
 `validate` and `execute` that can be used as generic SNS functions, which means that these methods can be called as a result of an SNS proposal ---
 see Section 7 of this
 [tutorial](https://internetcomputer.org/docs/current/developer-docs/integrations/sns/get-sns/testflight)
-for further details). 
+for further details).
 Callers to the `execute` function are restricted to a canister ID that can be set
 in the initial arguments when deploying or upgrading the test canister.
 By specifying the SNS governance canister ID as the allowed canister ID to call the `execute`
@@ -315,7 +328,7 @@ the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) sectio
 
 2. You can then register the test canister with the SNS by running the script
    `./register_dapp.sh <canister-id>`.
-   
+
    Here, `<canister-id>` is the principal of the canister that you want to decentralize.
 
 3. Upgrade the test canister by running the script `upgrade_test_canister.sh`.
@@ -378,7 +391,7 @@ the [SNS lifecycle](https://github.com/dfinity/sns-testing#sns-lifecycle) sectio
 dfx canister --network ${NETWORK} call assets list_permitted '(record {permission = variant {<permission>}})'
 ```
 
-  or by running the script `./get_permission_assets.sh`.
+or by running the script `./get_permission_assets.sh`.
 
 6. Make sure that you can still commit assets by running the script
    `./commit_assets.sh <path> <content>`, where `<path>` is the HTTP path

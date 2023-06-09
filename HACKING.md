@@ -6,7 +6,7 @@ You can customize some parameters of the test environment in the file `settings.
 Its default contents are:
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 
 # put your dfx identity here
 export DFX_IDENTITY="default"
@@ -170,11 +170,11 @@ Using identity: "spm".
 (null)
 ```
 
-   The response `(null)` means that the update was successful. Otherwise, the response
-   contains a description of the error.
+The response `(null)` means that the update was successful. Otherwise, the response
+contains a description of the error.
 
-   Note that the controller must be a self-authenticating principal and
-   hot keys and followees must not be changed via `update_neuron`!
+Note that the controller must be a self-authenticating principal and
+hot keys and followees must not be changed via `update_neuron`!
 
 ## Changing parameters of existing SNS neurons
 
@@ -222,8 +222,8 @@ Using identity: "spm".
 )
 ```
 
-   Make sure to use single quotes around the Candid blob to prevent bash
-   from interpreting the escaped characters.
+Make sure to use single quotes around the Candid blob to prevent bash
+from interpreting the escaped characters.
 
 2. Run the script `./update_sns_neuron.sh` to override some parameters
    of the SNS neuron. Provide the content of the `Neuron` field
@@ -263,10 +263,10 @@ Using identity: "spm".
 (null)
 ```
 
-   The response `(null)` means that the update was successful. Otherwise, the response
-   contains a description of the error.
+The response `(null)` means that the update was successful. Otherwise, the response
+contains a description of the error.
 
-   Note that permissions and followees must not be changed via `update_neuron`!
+Note that permissions and followees must not be changed via `update_neuron`!
 
 ## Inspecting SNS aggregator state
 

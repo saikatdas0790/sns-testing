@@ -6,17 +6,6 @@
       "type": "custom",
       "wasm": "./assets.wasm.gz"
     },
-    "internet_identity": {
-      "build": "",
-      "candid": "candid/internet_identity.did",
-      "remote": {
-        "id": {
-          "local": "qhbym-qaaaa-aaaaa-aaafq-cai"
-        }
-      },
-      "type": "custom",
-      "wasm": ""
-    },
     "nns-cycles-minting": {
       "build": "",
       "candid": "candid/nns-cycles-minting.did",
@@ -24,17 +13,6 @@
         "id": {
           "ic": "rkp4c-7iaaa-aaaaa-aaaca-cai",
           "local": "rkp4c-7iaaa-aaaaa-aaaca-cai"
-        }
-      },
-      "type": "custom",
-      "wasm": ""
-    },
-    "nns-dapp": {
-      "build": "",
-      "candid": "candid/nns-dapp.did",
-      "remote": {
-        "id": {
-          "local": "qsgjb-riaaa-aaaaa-aaaga-cai"
         }
       },
       "type": "custom",

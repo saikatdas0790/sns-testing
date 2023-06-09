@@ -3,7 +3,7 @@
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 # put your dfx identity here
-export DFX_IDENTITY="default_sns"
+export DX_IDENT="default_sns"
 
 # if you don't export CANISTER_TEST or set its value to "_test",
 # then the test flag is set for NNS and SNS governance canisters;
@@ -29,6 +29,6 @@ export IC_COMMIT="3699aacfc0774e7a45d59263fdba673aa16c07ad"
 # the asset canister version is specified by a DFX commit
 # you can take an arbitrary DFX commit to master:
 # https://github.com/dfinity/sdk/commits/master
-export DFX_COMMIT="266c913f71344f6fa3320287965120e56288c86c"
+export DX_COMMIT="266c913f71344f6fa3320287965120e56288c86c"
 
 export TESTNET="local"

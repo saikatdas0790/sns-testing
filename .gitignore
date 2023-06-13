@@ -8,3 +8,5 @@ candid/*.did
 ic/
 *.log.txt
 .dfx
+msg.json
+sns_canister_ids.json

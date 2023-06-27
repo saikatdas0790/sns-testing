@@ -3,7 +3,7 @@
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 # put your dfx identity here
-export DX_IDENT="hot_or_not_sns"
+export DX_IDENT="default_sns"
 
 # if you don't export CANISTER_TEST or set its value to "_test",
 # then the test flag is set for NNS and SNS governance canisters;
